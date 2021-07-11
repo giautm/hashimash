@@ -142,7 +142,7 @@ web-ui = 34.74.114.194
 ```
 
 Since the Terraform local-exec provider was utilized to inject the GKE cluster's kubeconfig into your environment, the 
-result of `kubectlget all` should look like this.
+result of `kubectl get all` should look like this.
 
 ```sh
 pod/api-1-0-0                                                         1/1     Running   0          7m15s
