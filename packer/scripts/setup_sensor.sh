@@ -14,17 +14,17 @@ sudo chown bind /var/named
 sudo chown bind /var/named/dynamic
 
 # Install Nomad
-curl -o nomad.zip https://releases.hashicorp.com/nomad/0.10.2/nomad_0.10.2_linux_amd64.zip
+curl -o nomad.zip https://releases.hashicorp.com/nomad/1.1.2/nomad_1.1.2_linux_amd64.zip
 unzip nomad.zip
 sudo mv nomad /usr/local/bin
 
 # Install consul
-curl -o consul.zip https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_amd64.zip
+curl -o consul.zip https://releases.hashicorp.com/consul/1.10.0/consul_1.10.0_linux_amd64.zip
 unzip consul.zip
 sudo mv consul /usr/local/bin
 
 # Install go
-curl -o go.tar.gz https://dl.google.com/go/go1.13.3.linux-amd64.tar.gz
+curl -o go.tar.gz https://dl.google.com/go/go1.16.3.linux-amd64.tar.gz
 tar -xf go.tar.gz
 sudo mv go /usr/local/bin
 export GOROOT=/usr/local/bin/go

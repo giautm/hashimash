@@ -3,9 +3,10 @@ package main
 import (
 	"api/internal/repository/sensor/repository"
 	"api/internal/router"
-	"github.com/go-chi/chi"
-	"github.com/hashicorp/vault/api"
 	"time"
+
+	chi "github.com/go-chi/chi/v5"
+	"github.com/hashicorp/vault/api"
 
 	"log"
 	"net/http"
@@ -18,7 +19,6 @@ func main() {
 	vaultHost := os.Getenv("vault_host")
 	vaultToken := os.Getenv("vault_token")
 	apiToken := os.Getenv("api_token")
-
 
 	// Dont start API server until API token has been registered in Vault
 	err := StoreApiToken(vaultHost, vaultToken, apiToken)

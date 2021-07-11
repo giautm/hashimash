@@ -5,11 +5,12 @@ import (
 	"api/internal/repository/sensor/repository"
 	"api/internal/response"
 	"encoding/json"
-	"github.com/go-chi/chi"
 	"log"
 	"net/http"
 	"strings"
 	"time"
+
+	chi "github.com/go-chi/chi/v5"
 )
 
 func handleVersion(w http.ResponseWriter, r *http.Request, version string) {
@@ -30,7 +31,7 @@ func handleSensor(w http.ResponseWriter, r *http.Request, version string, apiTok
 		(sensorReading[0].SensorVersion != "" && sensorReading[1].SensorVersion != "") &&
 		(sensorReading[0].Location.X != "" && sensorReading[1].Location.X != "") &&
 		(sensorReading[0].Location.Y != "" && sensorReading[1].Location.Y != "") &&
-		(sensorReading[0].Token == apiToken){
+		(sensorReading[0].Token == apiToken) {
 
 		sensorReading[0].ApiVersion = version
 		sensorReading[1].ApiVersion = version

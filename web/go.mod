@@ -1,5 +1,5 @@
 module web
 
-go 1.13
+go 1.16
 
-require github.com/go-chi/chi v4.0.2+incompatible
+require github.com/go-chi/chi/v5 v5.0.3

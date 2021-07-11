@@ -42,7 +42,7 @@ export GOOGLE_PROJECT_ID=hashimash
 #### Update gcloud to use your GCP Project
 ```sh
 gcloud config set project $GOOGLE_PROJECT_ID
-gcloud docker --authorize-only
+gcloud auth configure-docker
 ```
 
 #### Enabled the Google Container Registry and Kubernetes Engine APIs

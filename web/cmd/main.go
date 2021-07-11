@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/go-chi/chi"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -9,6 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	chi "github.com/go-chi/chi/v5"
 )
 
 func main() {
@@ -16,11 +17,11 @@ func main() {
 
 	r := chi.NewRouter()
 
-	r.Get("/api",  func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/api", func(w http.ResponseWriter, r *http.Request) {
 		HandleApiRequest(w, r, apiHost)
 	})
 
-	r.Post("/api/upgrade",  func(w http.ResponseWriter, r *http.Request) {
+	r.Post("/api/upgrade", func(w http.ResponseWriter, r *http.Request) {
 		HandleUpgradeRequest(w, r, apiHost)
 	})
 
@@ -54,7 +55,6 @@ func HandleApiRequest(w http.ResponseWriter, r *http.Request, apiHost string) {
 	client := http.Client{
 		Timeout: 5 * time.Second,
 	}
-
 
 	request, err := http.NewRequest(
 		http.MethodGet,
@@ -94,7 +94,7 @@ func HandleUpgradeRequest(w http.ResponseWriter, r *http.Request, apiHost string
 
 	request, err := http.NewRequest(
 		http.MethodPost,
-		"http://"+apiHost + path,
+		"http://"+apiHost+path,
 		r.Body,
 	)
 
