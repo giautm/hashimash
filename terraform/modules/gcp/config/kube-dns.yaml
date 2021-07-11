@@ -7,4 +7,4 @@ metadata:
     addonmanager.kubernetes.io/mode: EnsureExists
 data:
   stubDomains: |
-    {"consul": ["hashicorp-consul-dns.default.svc.cluster.local"]}
+    {"consul":["hashicorp-consul-dns.default.svc.cluster.local"]}

@@ -11,8 +11,9 @@ resource "null_resource" "kubectl" {
   }
 
   provisioner "local-exec" {
-    command = "helm install -f helm-vault-values.yaml vault ./${path.module}/vault-helm"
+    command = "helm install -f ../helm-vault-values.yaml vault hashicorp/vault"
   }
+
   provisioner "local-exec" {
     when = destroy
     command = "helm delete vault"

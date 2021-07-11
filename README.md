@@ -30,40 +30,41 @@ currently hosted on a Helm repository.
 This project relies on a modified version of the HashiCorp Consul Helm chart that enables multi-dc WAN connections. 
 In addition, this project also utilizes the HashiCorp Vault Helm Chart. As a result, these are included as a git submodule
 to simplify the setup procedure.
-```
+```sh
 git clone --recurse-submodules https://github.com/peytoncasper/hashimash
 ```
 
 #### Export your GCP Project Id
-```
+```sh
 export GOOGLE_PROJECT_ID=hashimash
 ```
 
 #### Update gcloud to use your GCP Project
-```
+```sh
 gcloud config set project $GOOGLE_PROJECT_ID
+gcloud docker --authorize-only
 ```
 
 #### Enabled the Google Container Registry and Kubernetes Engine APIs
 
-```
+```sh
 gcloud services enable containerregistry.googleapis.com
 gcloud services enable container.googleapis.com
 ```
 
 #### Create a GCP Service Account for Terraform/Packer
-```
+```sh
 gcloud iam service-accounts create terraform-packer \
     --display-name "terraform-packer"
 ```
 
 #### Export service account name 
-```
+```sh
 export GOOGLE_SERVICE_ACCOUNT=terraform-packer
 ```
 
 #### Add roles to Terraform/Packer Service Account
-```
+```sh
 gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
   --member serviceAccount:$GOOGLE_SERVICE_ACCOUNT@$GOOGLE_PROJECT_ID.iam.gserviceaccount.com \
   --role roles/compute.admin
@@ -98,35 +99,41 @@ gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
 ```
 
 #### Create Service Account Key
-```
+```sh
 gcloud iam service-accounts keys create credentials/credentials.json \
   --iam-account $GOOGLE_SERVICE_ACCOUNT@$GOOGLE_PROJECT_ID.iam.gserviceaccount.com
+
+export TF_VAR_gcp_service_account_path=$(pwd)/credentials/credentials.json
 ```
 
 # Build and Deploy
 
 #### Build the Packer Artifacts
-```
+```sh
 packer build -var "google_project_id=$GOOGLE_PROJECT_ID" packer/api.json
 packer build -var "google_project_id=$GOOGLE_PROJECT_ID" packer/web.json
 packer build -var "google_project_id=$GOOGLE_PROJECT_ID" packer/sensor.json
 ```
+#### Add hashicorp to Helm
+```sh
+helm repo add hashicorp https://helm.releases.hashicorp.com
+```
 
 #### Initialize Terraform Providers
-```
-terraform init terraform
+```sh
+terraform -chdir=terraform init
 ```
 
 #### Apply Terraform Environment
-```
-terraform apply -var="google_project_id=${GOOGLE_PROJECT_ID}" terraform
+```sh
+terraform -chdir=terraform apply -var="google_project_id=${GOOGLE_PROJECT_ID}"
 ```
 
 # Access the Environment
 
 Assuming Terraform executed successfully, the output should look like this below and the Web UI is accessible on port 80
 at the address listed. 
-```
+```sh
 Apply complete! Resources: 15 added, 0 changed, 0 destroyed.
 
 Outputs:
@@ -137,7 +144,7 @@ web-ui = 34.74.114.194
 Since the Terraform local-exec provider was utilized to inject the GKE cluster's kubeconfig into your environment, the 
 result of `kubectlget all` should look like this.
 
-```
+```sh
 pod/api-1-0-0                                                         1/1     Running   0          7m15s
 pod/api-1-0-1                                                         1/1     Running   0          7m15s
 pod/hashicorp-consul-connect-injector-webhook-deployment-745d5l5xsh   1/1     Running   0          7m8s
@@ -178,4 +185,14 @@ replicaset.apps/vault-agent-injector-645b58f5dd                                 
 NAME                                       READY   AGE
 statefulset.apps/hashicorp-consul-server   1/1     7m8s
 statefulset.apps/vault                     1/1     7m9s
+```
+
+### Cleanup
+
+```
+terraform -chdir=terraform destroy -var="google_project_id=${GOOGLE_PROJECT_ID}"
+```
+
+```
+gcloud iam service-accounts delete $GOOGLE_SERVICE_ACCOUNT@$GOOGLE_PROJECT_ID.iam.gserviceaccount.com
 ```

@@ -42,7 +42,7 @@ output "client_key" {
 output "cluster_ca_certificate" {
   value = data.google_container_cluster.cluster.master_auth.0.cluster_ca_certificate
   depends_on = [
-      data.google_container_cluster.cluster.master_auth
+    data.google_container_cluster.cluster
   ]
 }
 

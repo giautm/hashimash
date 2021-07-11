@@ -11,6 +11,11 @@ resource "null_resource" "kubectl" {
   }
 
   provisioner "local-exec" {
-    command = "helm install -f helm-consul-values.yaml hashicorp ./${path.module}/consul-helm-multi-dc"
+    command = "helm install -f ../helm-consul-values.yaml hashicorp hashicorp/consul"
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "helm delete hashicorp"
   }
 }
