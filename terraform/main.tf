@@ -1,8 +1,8 @@
 provider "google" {
   project     = var.google_project_id
   credentials = file(var.gcp_service_account_path)
-  region      = "us-east1"
-  zone        = "us-east1-c"
+  region      = var.gcp_region_id
+  zone        = var.gcp_zone_id
 }
 
 provider "kubernetes" {
@@ -16,6 +16,8 @@ provider "kubernetes" {
 
 module "gcp" {
   source = "./modules/gcp"
+  region = var.gcp_region_id
+  zone   = var.gcp_zone_id
 }
 
 module "consul" {
@@ -30,6 +32,13 @@ module "vault" {
   kubeconfig_created = module.gcp.kubeconfig_created
 }
 
+module "sensors" {
+  source = "./modules/sensors"
+  zone   = var.gcp_region_id
+
+  consul_ext_ip = module.gcp.consul_ext_ip
+}
+
 module "api" {
   source = "./modules/api"
 
@@ -40,12 +49,6 @@ module "web" {
   source = "./modules/web"
 
   google_project_id = var.google_project_id
-}
-
-module "sensors" {
-  source = "./modules/sensors"
-
-  consul_ext_ip = module.gcp.consul_ext_ip
 }
 
 output "web-ui" {

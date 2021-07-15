@@ -1,10 +1,10 @@
 resource "google_container_cluster" "orchestrated_complexity" {
   name     = "orchestrated-complexity"
-  location = "us-east1-c"
+  location = var.zone
 
   remove_default_node_pool = true
   initial_node_count       = 1
-  enable_legacy_abac = true
+  enable_legacy_abac       = true
   master_auth {
     username = ""
     password = ""
@@ -16,13 +16,13 @@ resource "google_container_cluster" "orchestrated_complexity" {
 }
 
 resource "google_container_node_pool" "orchestrated_complexity" {
-  name = "orchestrated-complexity-nodepool"
-  location = "us-east1-c"
-  cluster = google_container_cluster.orchestrated_complexity.name
+  name       = "orchestrated-complexity-nodepool"
+  location   = var.zone
+  cluster    = google_container_cluster.orchestrated_complexity.name
   node_count = 1
 
   node_config {
-    preemptible = true
+    preemptible  = true
     machine_type = "e2-medium"
 
     metadata = {
@@ -60,7 +60,7 @@ resource "google_compute_firewall" "consul" {
 resource "null_resource" "kubectl" {
   triggers = {
     cluster = google_container_cluster.orchestrated_complexity.id
-    name = google_container_cluster.orchestrated_complexity.name
+    name    = google_container_cluster.orchestrated_complexity.name
   }
 
   provisioner "local-exec" {

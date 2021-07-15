@@ -10,33 +10,33 @@ resource "kubernetes_pod" "api_1_0_0" {
 
   spec {
     container {
-      image = "gcr.io/${var.google_project_id}/api:latest"
-      name = "api-1-0-0"
+      image             = "gcr.io/${var.google_project_id}/api:latest"
+      name              = "api-1-0-0"
       image_pull_policy = "Always"
       env {
-        name = "version"
+        name  = "version"
         value = "1.0.0"
       }
       env {
-        name = "consul_host"
+        name  = "consul_host"
         value = "consul.service.gcp.consul"
       }
       env {
-        name = "vault_host"
+        name  = "vault_host"
         value = "vault-default.service.gcp.consul:8200"
       }
       env {
-        name = "vault_token"
+        name  = "vault_token"
         value = "root"
       }
       env {
-        name = "api_token"
+        name  = "api_token"
         value = "0z7uw5zfMIpZMp5h"
       }
       port {
-        name = "http"
+        name           = "http"
         container_port = 80
-        protocol = "TCP"
+        protocol       = "TCP"
       }
     }
   }
@@ -73,33 +73,33 @@ resource "kubernetes_pod" "api_1_0_1" {
 
   spec {
     container {
-      image = "gcr.io/${var.google_project_id}/api:latest"
-      name = "api-1-0-1"
+      image             = "gcr.io/${var.google_project_id}/api:latest"
+      name              = "api-1-0-1"
       image_pull_policy = "Always"
       env {
-        name = "version"
+        name  = "version"
         value = "1.0.1"
       }
       env {
-        name = "consul_host"
+        name  = "consul_host"
         value = "consul.service.gcp.consul"
       }
       env {
-        name = "vault_host"
+        name  = "vault_host"
         value = "vault-default.service.gcp.consul:8200"
       }
       env {
-        name = "vault_token"
+        name  = "vault_token"
         value = "root"
       }
       env {
-        name = "api_token"
+        name  = "api_token"
         value = "0z7uw5zfMIpZMp5h"
       }
       port {
-        name = "http"
+        name           = "http"
         container_port = 80
-        protocol = "TCP"
+        protocol       = "TCP"
       }
     }
   }

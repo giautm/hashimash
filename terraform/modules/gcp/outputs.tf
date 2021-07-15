@@ -6,7 +6,7 @@
 
 data "google_container_cluster" "cluster" {
   name     = "orchestrated-complexity"
-  location = "us-east1-c"
+  location = var.zone
   depends_on = [
     google_container_cluster.orchestrated_complexity
   ]
@@ -57,7 +57,7 @@ data "google_compute_instance_group" "k8s_instance_group" {
   self_link = google_container_node_pool.orchestrated_complexity.instance_group_urls[0]
 }
 
-data "google_compute_instance" consul_vm {
+data "google_compute_instance" "consul_vm" {
   self_link = element(tolist(data.google_compute_instance_group.k8s_instance_group.instances), 0)
 }
 

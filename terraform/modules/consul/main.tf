@@ -15,7 +15,7 @@ resource "null_resource" "kubectl" {
   }
 
   provisioner "local-exec" {
-    when = destroy
+    when    = destroy
     command = "helm delete hashicorp"
   }
 }

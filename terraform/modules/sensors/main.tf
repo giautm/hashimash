@@ -3,7 +3,7 @@ resource "google_compute_instance" "sensor" {
   count        = 3
   name         = "sensor-${count.index}"
   machine_type = "e2-micro"
-  zone         = "us-east1-c"
+  zone         = var.zone
 
   tags = ["orchestrated-complexity"]
 
