@@ -1,4 +1,4 @@
-variable "google_project_id" {
+variable "gcp_project_id" {
   type = string
 }
 
@@ -12,6 +12,6 @@ variable "gcp_zone_id" {
   default = "asia-southeast1-a"
 }
 
-variable "gcp_service_account_path" {
+variable "gcp_service_account" {
   type = string
 }

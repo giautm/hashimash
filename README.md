@@ -110,9 +110,9 @@ export TF_VAR_gcp_service_account_path=$(pwd)/credentials/credentials.json
 
 #### Build the Packer Artifacts
 ```sh
-packer build -var "google_project_id=$GOOGLE_PROJECT_ID" packer/api.json
-packer build -var "google_project_id=$GOOGLE_PROJECT_ID" packer/web.json
-packer build -var "google_project_id=$GOOGLE_PROJECT_ID" packer/sensor.json
+packer build -var "gcp_project_id=$GOOGLE_PROJECT_ID" packer/api.json
+packer build -var "gcp_project_id=$GOOGLE_PROJECT_ID" packer/web.json
+packer build -var "gcp_project_id=$GOOGLE_PROJECT_ID" packer/sensor.json
 ```
 #### Add hashicorp to Helm
 ```sh
@@ -126,7 +126,9 @@ terraform -chdir=terraform init
 
 #### Apply Terraform Environment
 ```sh
-terraform -chdir=terraform apply -var="google_project_id=${GOOGLE_PROJECT_ID}"
+terraform -chdir=terraform apply \
+  -var="gcp_project_id=${GOOGLE_PROJECT_ID}"\
+  -var="gcp_service_account=${$(pwd)}/credentials/credentials.json"
 ```
 
 # Access the Environment
@@ -190,7 +192,9 @@ statefulset.apps/vault                     1/1     7m9s
 ### Cleanup
 
 ```
-terraform -chdir=terraform destroy -var="google_project_id=${GOOGLE_PROJECT_ID}"
+terraform -chdir=terraform destroy \
+  -var="gcp_project_id=${GOOGLE_PROJECT_ID}"\
+  -var="gcp_service_account=${$(pwd)}/credentials/credentials.json"
 ```
 
 ```

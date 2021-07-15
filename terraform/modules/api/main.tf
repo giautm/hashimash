@@ -10,7 +10,7 @@ resource "kubernetes_pod" "api_1_0_0" {
 
   spec {
     container {
-      image             = "gcr.io/${var.google_project_id}/api:latest"
+      image             = "gcr.io/${var.gcp_project_id}/api:latest"
       name              = "api-1-0-0"
       image_pull_policy = "Always"
       env {
@@ -73,7 +73,7 @@ resource "kubernetes_pod" "api_1_0_1" {
 
   spec {
     container {
-      image             = "gcr.io/${var.google_project_id}/api:latest"
+      image             = "gcr.io/${var.gcp_project_id}/api:latest"
       name              = "api-1-0-1"
       image_pull_policy = "Always"
       env {

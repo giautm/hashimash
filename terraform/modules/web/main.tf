@@ -10,7 +10,7 @@ resource "kubernetes_pod" "web" {
   spec {
     container {
       image_pull_policy = "Always"
-      image = "gcr.io/${var.google_project_id}/web:latest"
+      image = "gcr.io/${var.gcp_project_id}/web:latest"
       name = "web"
 
       env {

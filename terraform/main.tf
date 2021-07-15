@@ -1,6 +1,6 @@
 provider "google" {
-  project     = var.google_project_id
-  credentials = file(var.gcp_service_account_path)
+  project     = var.gcp_project_id
+  credentials = file(var.gcp_service_account)
   region      = var.gcp_region_id
   zone        = var.gcp_zone_id
 }
@@ -34,7 +34,7 @@ module "vault" {
 
 module "sensors" {
   source = "./modules/sensors"
-  zone   = var.gcp_region_id
+  zone   = var.gcp_zone_id
 
   consul_ext_ip = module.gcp.consul_ext_ip
 }
@@ -42,13 +42,13 @@ module "sensors" {
 module "api" {
   source = "./modules/api"
 
-  google_project_id = var.google_project_id
+  gcp_project_id = var.gcp_project_id
 }
 
 module "web" {
   source = "./modules/web"
 
-  google_project_id = var.google_project_id
+  gcp_project_id = var.gcp_project_id
 }
 
 output "web-ui" {

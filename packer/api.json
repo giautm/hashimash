@@ -1,6 +1,6 @@
 {
   "variables": {
-    "google_project_id": null
+    "gcp_project_id": null
   },
   "builders": [
     {
@@ -34,7 +34,7 @@
     [
       {
         "type": "docker-tag",
-        "repository": "gcr.io/{{user `google_project_id`}}/api",
+        "repository": "gcr.io/{{user `gcp_project_id`}}/api",
         "tag": "latest"
       },
       {
